@@ -1,6 +1,9 @@
 package net.evan.firstmod;
 
 import com.mojang.logging.LogUtils;
+import net.evan.firstmod.item.ModCreativeModeTabs;
+import net.evan.firstmod.item.ModItems;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
@@ -23,6 +26,8 @@ public class FirstMod {
     public FirstMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        ModItems.register(modEventBus);
+
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -35,7 +40,15 @@ public class FirstMod {
     }
 
     private void addCreative(CreativeModeTabEvent.BuildContents event) {
+        if(event.getTab() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ModItems.EVAN);
+            event.accept(ModItems.AMERICAN_EVAN);
+        }
 
+        if(event.getTab() == ModCreativeModeTabs.FIRST_TAB) {
+            event.accept(ModItems.EVAN);
+            event.accept(ModItems.AMERICAN_EVAN);
+        }
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
